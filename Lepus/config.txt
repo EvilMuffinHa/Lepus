@@ -1,0 +1,23 @@
+Beginning Command Text:
+$
+
+Top Text:
+Lepus 1.0
+Hit "Esc" and wait to exit the console
+or type "quit" or "exit" to exit
+Type "help" for help
+Type "cmds" to see commands
+
+Logging Style: Rewrite
+
+Incorrect Usage:
+That is not how you use this command.
+
+Unknown Command:
+Command not found.
+
+Backspace Beep: No
+
+Y Size: 20
+
+X Size: 60
