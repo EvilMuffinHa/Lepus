@@ -1,4 +1,7 @@
 # Lepus
+
+(lepus.png)
+
 A framework for building consoles in python.
 
 
