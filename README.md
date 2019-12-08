@@ -24,3 +24,11 @@ In config.txt, you can change configurations for the console.
 * Backspace Beep: Whether the computer will beep if it cannot backspace on the console.
 * Y Size: Height of the console. 10 is recommended as the minimum.
 * X Size: Width of the console. 20 is recommended as the minimum.
+
+## Running
+
+Run `python lepus.py` to produce the console.
+
+## Prerequisites
+
+All you need is python 3.6.
