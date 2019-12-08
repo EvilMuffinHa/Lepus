@@ -16,9 +16,9 @@ Lepus is very easy to use. Just write plugins into the plugins folder to create 
 3. Initialize the class with the variable "pad". This allows you to access and use the curses.pad object from your plugin, as seen in clear.py
 4. Write a function run() within your class, and have it return what you would like. Add parameters to run to add arguments to your command.
 
-Do not use "quit" or "exit" as plugin names.
-Some example plugins are in the plugins folder.
-The testdir folder is used by two example plugins in the plugin folder.
+Do not use "quit" or "exit" as plugin names.  
+Some example plugins are in the plugins folder.  
+The testdir folder is used by two example plugins.  
 
 ## Configurations
 
