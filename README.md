@@ -1,6 +1,6 @@
 # Lepus
 
-(lepus.png)
+!Lepus Logo(lepus.png)
 
 A framework for building consoles in python.
 
