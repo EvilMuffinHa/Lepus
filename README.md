@@ -1,7 +1,9 @@
 # Lepus
 
 ![Lepus Logo](/lepus.png)
-
+<p align="center">
+  <img width="200" height="200" src="/lepus.png">
+</p>
 
 A framework for building consoles in python.
 
