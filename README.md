@@ -1,6 +1,7 @@
 # Lepus
 
-!Lepus Logo(lepus.png)
+![GitHub Logo](/lepus.png)
+Format: ![Alt Text](url)
 
 A framework for building consoles in python.
 
