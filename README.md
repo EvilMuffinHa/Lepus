@@ -1,7 +1,7 @@
 # Lepus
 
 <p align="center">
-  <img width="40" height="40" src="/lepus.png">
+  <img width="80" height="80" src="/lepus.png">
 </p>
 
 A framework for building consoles in python.
