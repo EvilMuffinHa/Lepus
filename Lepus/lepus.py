@@ -118,107 +118,109 @@ def main(stdscr):
         elif x == 'KEY_LEFT':
             pass
 
-
+        try:
         #Esc will break out
-        elif ord(x) == 27:
-            pad.scrollok(0)
-            use_default_colors()
-            os.system('stty sane')
-            break
+            if ord(x) == 27:
+                pad.scrollok(0)
+                use_default_colors()
+                os.system('stty sane')
+                break
 
-        #If you hit enter, it adds the start_text
-        elif ord(x) == 10:
-            disp(wy, wx, pad_pos, pad, '\n')
-            pointer = -1
-            #Updating start text in case user decides to change the file based on a plugin
-            start_text = ''
-            for i in text.split('\n\n')[0].split('\n')[1:]:
-                start_text += i
-            start_text += ' '
-            allcmds.append(cmd)
-
-            comd = cmd.split(' ')[0]
-
-            #Checking if cmd is an actual command
-            if comd not in cmds:
-                disp(wy, wx, pad_pos, pad, unknown)
-                log.append(unknown)
+            #If you hit enter, it adds the start_text
+            elif ord(x) == 10:
                 disp(wy, wx, pad_pos, pad, '\n')
-            if (comd in cmds) and (comd != 'quit' and comd != 'exit'):
-                #Checking all the arguments, and if they are valid
-                sig = signature(getattr(__import__('plugins.' + comd,fromlist=[comd]), comd)(pad).run)
-                args = str(sig)
-                argslist = []
+                pointer = -1
+                #Updating start text in case user decides to change the file based on a plugin
+                start_text = ''
+                for i in text.split('\n\n')[0].split('\n')[1:]:
+                    start_text += i
+                start_text += ' '
+                allcmds.append(cmd)
+
+                comd = cmd.split(' ')[0]
+
+                #Checking if cmd is an actual command
+                if comd not in cmds:
+                    disp(wy, wx, pad_pos, pad, unknown)
+                    log.append(unknown)
+                    disp(wy, wx, pad_pos, pad, '\n')
+                if (comd in cmds) and (comd != 'quit' and comd != 'exit'):
+                    #Checking all the arguments, and if they are valid
+                    sig = signature(getattr(__import__('plugins.' + comd,fromlist=[comd]), comd)(pad).run)
+                    args = str(sig)
+                    argslist = []
 
 
-                #moving around the arguments
-                for i in args.split(','):
-                    argslist.append(i.rstrip().lstrip().rstrip(')').lstrip('('))
+                    #moving around the arguments
+                    for i in args.split(','):
+                        argslist.append(i.rstrip().lstrip().rstrip(')').lstrip('('))
 
-                #If arg-length is correct
-                if len(cmd.rstrip().split(' ')) - 1 == len(argslist) or (len(cmd.rstrip().split(' ')) == len(argslist) and argslist == ['']):
-                    if argslist == ['']:
+                    #If arg-length is correct
+                    if len(cmd.rstrip().split(' ')) - 1 == len(argslist) or (len(cmd.rstrip().split(' ')) == len(argslist) and argslist == ['']):
+                        if argslist == ['']:
 
-                        # importing and running the class, and then running the function run() inside that
-                        x = getattr(__import__('plugins.' + comd,fromlist=[comd]), comd)(pad).run()
-                        log.append(x)
-                        disp(wy, wx, pad_pos, pad, x)
+                            # importing and running the class, and then running the function run() inside that
+                            x = getattr(__import__('plugins.' + comd,fromlist=[comd]), comd)(pad).run()
+                            log.append(x)
+                            disp(wy, wx, pad_pos, pad, x)
+                        else:
+
+                            # importing and running the class, and then running the function run() inside that
+                            x = getattr(__import__('plugins.' + comd,fromlist=[comd]), comd)(pad).run(*cmd.rstrip().split(' ')[1:])
+                            log.append(x)
+                            disp(wy, wx, pad_pos, pad, x)
+
                     else:
-
-                        # importing and running the class, and then running the function run() inside that
-                        x = getattr(__import__('plugins.' + comd,fromlist=[comd]), comd)(pad).run(*cmd.rstrip().split(' ')[1:])
-                        log.append(x)
-                        disp(wy, wx, pad_pos, pad, x)
-
-                else:
-                    disp(wy, wx, pad_pos, pad, incorrect)
-                    log.append(incorrect)
-                disp(wy, wx, pad_pos, pad, '\n')
-
-            if comd == 'quit' or comd == 'exit':
-                if len(cmd.rstrip().split(' ')) == 1:
-                    break
-                else:
-                    disp(wy, wx, pad_pos, pad, incorrect)
-                    log.append(incorrect)
+                        disp(wy, wx, pad_pos, pad, incorrect)
+                        log.append(incorrect)
                     disp(wy, wx, pad_pos, pad, '\n')
 
+                if comd == 'quit' or comd == 'exit':
+                    if len(cmd.rstrip().split(' ')) == 1:
+                        break
+                    else:
+                        disp(wy, wx, pad_pos, pad, incorrect)
+                        log.append(incorrect)
+                        disp(wy, wx, pad_pos, pad, '\n')
 
 
-            #Adding the next line start text
-            disp(wy, wx, pad_pos, pad, start_text)
-            #Restarting the command
-            cmd = ''
+
+                #Adding the next line start text
+                disp(wy, wx, pad_pos, pad, start_text)
+                #Restarting the command
+                cmd = ''
 
 
-        #Backspace keys
-        elif (ord(x) == 8 or ord(x) == 127 or ord(x) == KEY_BACKSPACE or x == '\x7f'):
-            pointer = -1
-            #Checking whether it is as long as the start_text
-            start_text = ''
-            for i in text.split('\n\n')[0].split('\n')[1:]:
-                start_text += i
-            start_text += ' '
-            if getsyx()[1] > len(start_text):
-                disp(wy, wx, pad_pos, pad, '\b \b')
-                cmd = cmd[0:-1]
-            #Beep!
-            else:
-                if backbeep.lower() == 'backspace beep: yes':
-                    beep()
+            #Backspace keys
+            elif (ord(x) == 8 or ord(x) == 127 or ord(x) == KEY_BACKSPACE or x == '\x7f'):
+                pointer = -1
+                #Checking whether it is as long as the start_text
+                start_text = ''
+                for i in text.split('\n\n')[0].split('\n')[1:]:
+                    start_text += i
+                start_text += ' '
+                if getsyx()[1] > len(start_text):
+                    disp(wy, wx, pad_pos, pad, '\b \b')
+                    cmd = cmd[0:-1]
+                #Beep!
                 else:
-                    pass
-        else:
-            #Adding the character if it isn't a special key
-            disp(wy, wx, pad_pos, pad, x)
-            cmd += x
+                    if backbeep.lower() == 'backspace beep: yes':
+                        beep()
+                    else:
+                        pass
+            else:
+                #Adding the character if it isn't a special key
+                disp(wy, wx, pad_pos, pad, x)
+                cmd += x
 
 
-        #If the position is at the bottom of the pad, shift it so it will scroll
-        if getsyx()[0] == wy:
-            pad_pos += 1
-            wy+=1
-            pad.resize(wy,wx)
+            #If the position is at the bottom of the pad, shift it so it will scroll
+            if getsyx()[0] == wy:
+                pad_pos += 1
+                wy+=1
+                pad.resize(wy,wx)
+        except TypeError:
+            pass
 
     if text.split('\n\n')[2].lower() == 'logging style: append':
         f = open('log.txt', 'a')
