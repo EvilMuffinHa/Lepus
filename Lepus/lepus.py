@@ -9,6 +9,7 @@ def disp(wy, wx, pad_pos, pad, text):
         pad_pos += 1
         wy += 1
         pad.resize(wy, wx)
+        pad.refresh(pad_pos, 0, 0, 0, wy, wx)
         pad.addstr(text)
     else:
         pad.addstr(text)
